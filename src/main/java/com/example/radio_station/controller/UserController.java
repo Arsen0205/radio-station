@@ -7,12 +7,13 @@ import com.example.radio_station.dto.response.RegisterUserDtoResponse;
 import com.example.radio_station.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @AllArgsConstructor
 public class UserController {
     private UserService userService;
@@ -29,7 +30,8 @@ public class UserController {
     public String login(){return "login";}
 
     @PostMapping("/login")
-    public LoginDtoResponse loginUser(@Valid @RequestBody LoginDtoRequest request){
-        return userService.loginUser(request);
+    public String loginUser(@Valid @RequestBody LoginDtoRequest request){
+        userService.loginUser(request);
+        return "redirect:/song";
     }
 }

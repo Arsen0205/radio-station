@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/admin")
 public class AdminController {
     private AdminService adminService;
 
@@ -21,6 +22,14 @@ public class AdminController {
     @PostMapping("/ban")
     public ChangeUserDtoResponse banUser(@Valid @RequestBody ChangeUserRoleRequest request){
         return adminService.banUser(request);
+    }
+
+    @GetMapping("/unBan")
+    public String unBan(){return "unBan";}
+
+    @PostMapping("/unBan")
+    public ChangeUserDtoResponse unBanUser(@Valid @RequestBody ChangeUserRoleRequest request){
+        return adminService.unBanUser(request);
     }
 
     @PostMapping("/change")

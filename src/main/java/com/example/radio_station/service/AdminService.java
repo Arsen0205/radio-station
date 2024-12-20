@@ -28,7 +28,20 @@ public class AdminService {
         user.setActive(false);
         userRepository.save(user);
 
-        return new ChangeUserDtoResponse("Вы успешно поменяли роль");
+        return new ChangeUserDtoResponse("Вы заблокировали пользователя");
+    }
+
+    public ChangeUserDtoResponse unBanUser(ChangeUserRoleRequest request){
+        User user = userRepository.findByUserLogin(request.getUserLogin()).orElseThrow(() -> new IllegalArgumentException("Пользователь с таким логином не найден"));
+
+        if(user.isActive()){
+            throw new IllegalArgumentException("Пользователь уже разблокирован");
+        }
+
+        user.setActive(true);
+        userRepository.save(user);
+
+        return new ChangeUserDtoResponse("Вы разблокировали пользователя");
     }
 
     public DeleteSongDtoResponse deleteSong(DeleteSongDtoRequest request) {

@@ -39,8 +39,11 @@ public class UserService {
     public LoginDtoResponse loginUser(LoginDtoRequest request){
         User user = userRepository.findByUserLogin(request.getUserLogin())
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь с таким логином не найден!"));
-        if(!passwordEncoder.matches(request.getPassword(), user.getPassword()) || user.isActive()){
-            throw new IllegalArgumentException("Неверный пароль или ваш аккаунт заблокировали!");
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
+            throw new IllegalArgumentException("Неверный пароль!");
+        }
+        if(!user.isActive()){
+            throw new IllegalArgumentException("Пользователь заблокирован!");
         }
         return new LoginDtoResponse("Вход выполнен успешно");
     }

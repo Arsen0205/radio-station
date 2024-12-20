@@ -2,22 +2,30 @@ package com.example.radio_station.controller;
 
 import com.example.radio_station.dto.request.UploadSongRequest;
 import com.example.radio_station.models.Song;
+import com.example.radio_station.repository.SongRepository;
 import com.example.radio_station.service.SongService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
-@RestController
+@Controller
 @AllArgsConstructor
 public class SongController {
     private SongService songService;
+    private SongRepository songRepository;
 
     @GetMapping("/song")
-    public String song(){return "song";}
+    public String song(Model model){
+        List<Song> songs = songRepository.findAll();
+        model.addAttribute("songs", songs);
+        return "song";
+    }
 
     @PostMapping("/song")
     public Song uploadSong(@Valid @RequestParam String title,

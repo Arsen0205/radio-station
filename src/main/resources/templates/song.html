@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музыкальный каталог</title>
 </head>
 <body>
-
+<h1>Список песен</h1>
+<ul>
+    <!-- Проходим по списку песен -->
+    <th:block th:each="song : ${songs}">
+        <li>
+            <strong th:text="${song.title}"></strong> —
+            <em th:text="${song.artist}"></em>
+            <br>
+            <audio controls>
+                <source th:src="@{${song.filePath}}" type="audio/mpeg">
+                Ваш браузер не поддерживает проигрывание аудио.
+            </audio>
+        </li>
+    </th:block>
+</ul>
 </body>
 </html>
