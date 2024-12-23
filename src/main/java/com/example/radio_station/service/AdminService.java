@@ -44,8 +44,8 @@ public class AdminService {
         return new ChangeUserDtoResponse("Вы разблокировали пользователя");
     }
 
-    public DeleteSongDtoResponse deleteSong(DeleteSongDtoRequest request) {
-        Song song = songRepository.findById(request.getId()).orElseThrow(() -> new IllegalArgumentException("Трек с таким id не найден"));
+    public DeleteSongDtoResponse deleteSong(Long id) {
+        Song song = songRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Трек с таким id не найден"));
         songRepository.delete(song);
 
         return new DeleteSongDtoResponse("Вы успешно удалили трек");

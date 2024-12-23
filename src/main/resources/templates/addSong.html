@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добавить трек</title>
+</head>
+<body>
+<h1>Добавление трека</h1>
+
+<!-- Форма для добавления трека -->
+<form th:action="@{/songs/add}" th:method="post" enctype="multipart/form-data">
+  <div>
+    <label for="title">Название:</label>
+    <input type="text" id="title" name="title" required placeholder="Введите название трека">
+  </div>
+
+  <div>
+    <label for="artist">Исполнитель:</label>
+    <input type="text" id="artist" name="artist" required placeholder="Введите имя исполнителя">
+  </div>
+
+  <div>
+    <label for="file">Файл:</label>
+    <input type="file" id="file" name="file" accept="audio/*" required>
+  </div>
+
+  <div>
+    <button type="submit">Добавить трек</button>
+  </div>
+</form>
+</body>
+</html>

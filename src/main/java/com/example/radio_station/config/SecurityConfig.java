@@ -21,8 +21,14 @@ public class SecurityConfig implements WebMvcConfigurer {
         http
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/register", "/login", "/path/to/upload/directory/**","/song/**", "/admin/**","/change", "/ban","/css/**").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/register", "/login", "/path/to/upload/directory/**","/song/**", "/change", "/css/**").permitAll()
+                        .requestMatchers("/addSong").hasRole("PERFORMER")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/song", true)
+                        .permitAll())
                 .logout(logout ->logout.permitAll());
         return http.build();
     }

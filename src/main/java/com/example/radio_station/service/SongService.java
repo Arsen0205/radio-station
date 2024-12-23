@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 
 @Service
 public class SongService {
@@ -28,12 +29,9 @@ public class SongService {
         this.uploadDir =uploadDir;
     }
 
-    public Song uploadSong(UploadSongRequest request, String userLogin) throws IOException {
-        //Проверка пользователя
-        User user = userRepository.findByUserLogin(userLogin).orElseThrow(() -> new RuntimeException("Пользователь не найден!"));
-        if(!user.isPerformer()){
-            throw new RuntimeException("Пользователь не имеет прав для загрузки песен!");
-        }
+    public Song uploadSong(UploadSongRequest request, Principal principal) throws IOException {
+        Song song = new Song();
+
 
         //Обработка файла
         MultipartFile file = request.getFile();
@@ -47,12 +45,17 @@ public class SongService {
         Files.write(path, file.getBytes());
 
         //Сохранение файла в БД
-        Song song = new Song();
+
         song.setTitle(request.getTitle());
         song.setArtist(request.getArtist());
         song.setFilePath(path.toString());
-        song.setUser(user);
+        song.setUser(getUserByPrincipal(principal));
 
         return songRepository.save(song);
+    }
+
+    public User getUserByPrincipal(Principal principal) {
+        if(principal == null){return new User();}
+        return userRepository.findByUserLogin(principal.getName()).orElse(new User());
     }
 }

@@ -8,10 +8,7 @@ import com.example.radio_station.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @AllArgsConstructor
@@ -19,8 +16,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public RegisterUserDtoResponse registerUser(@Valid @RequestBody RegisterUserDtoRequest request){
-        return userService.registerUser(request);
+    public String registerUser(@Valid @ModelAttribute RegisterUserDtoRequest request){
+        userService.registerUser(request);
+        System.out.println("Переданные данные: " + request);
+        return "redirect:/login";
     }
 
     @GetMapping("/register")
@@ -32,6 +31,6 @@ public class UserController {
     @PostMapping("/login")
     public String loginUser(@Valid @RequestBody LoginDtoRequest request){
         userService.loginUser(request);
-        return "redirect:/song";
+        return "/song";
     }
 }

@@ -7,6 +7,32 @@
 </head>
 <body>
 <h1>Список песен</h1>
+
+    <div th:if="${user.isAdmin()}">
+        <a href="/admin">Панель администратора</a>
+    </div>
+<div th:if="${user.isPerformer()}">
+    <form action="/song/addSong" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="title">Название:</label>
+            <input type="text" id="title" name="title" required placeholder="Введите название трека">
+        </div>
+
+        <div>
+            <label for="artist">Исполнитель:</label>
+            <input type="text" id="artist" name="artist" required placeholder="Введите имя исполнителя">
+        </div>
+
+        <div>
+            <label for="file">Файл:</label>
+            <input type="file" id="file" name="file" accept="audio/*" required>
+        </div>
+
+        <div>
+            <button type="submit">Добавить трек</button>
+        </div>
+    </form>
+</div>
 <ul>
     <!-- Проходим по списку песен -->
     <th:block th:each="song : ${songs}">
@@ -18,6 +44,12 @@
                 <source th:src="@{${song.filePath}}" type="audio/mpeg">
                 Ваш браузер не поддерживает проигрывание аудио.
             </audio>
+            <p>Добавлено: <strong th:text="${user.name}"></strong></p>
+            <div th:if="${user.isPerformer()} and ${user.userLogin} == ${song.user.userLogin}">
+                <form th:action="@{/song/delete/{id}(id=${song.id})}" method="post">
+                    <input type="hidden" th:name="id" th:value="${song.id}">
+                    <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить этот трек?')">Удалить трек</button>
+                </form>
         </li>
     </th:block>
 </ul>

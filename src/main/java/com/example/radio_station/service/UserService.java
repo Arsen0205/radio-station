@@ -28,7 +28,7 @@ public class UserService {
         user.setName(request.getName());
         user.setSurname(request.getSurname());
         user.setUserLogin(request.getUserLogin());
-        user.getRoles().add(Role.LISTENER);
+        user.setRoles(request.getRoles());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setActive(true);
 

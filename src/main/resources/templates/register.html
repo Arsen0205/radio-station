@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<h1>Регистрация</h1>
+<form action="/register" method="post">
+    <!-- Фамилия -->
+    <label for="surname">Фамилия:</label>
+    <input type="text" id="surname" name="surname" required>
 
+    <!-- Имя -->
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" required>
+
+    <!-- Логин -->
+    <label for="userLogin">Логин:</label>
+    <input type="text" id="userLogin" name="userLogin" required>
+
+    <!-- Пароль -->
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" name="password" required>
+
+    <!-- Выбор роли -->
+    <label for="roles">Роль:</label>
+    <select id="roles" name="roles" required>
+        <option value="LISTENER">Слушатель</option>
+        <option value="PERFORMER">Исполнитель</option>
+    </select>
+
+    <!-- Активность -->
+    <input type="hidden" name="active" value="true">
+
+    <!-- Отправка формы -->
+    <button type="submit">Зарегистрироваться</button>
+</form>
+<a href="/login"> Назад</a>
 </body>
 </html>

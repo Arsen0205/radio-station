@@ -8,11 +8,13 @@ import com.example.radio_station.models.enums.Role;
 import com.example.radio_station.service.AdminService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @AllArgsConstructor
-@RequestMapping("/admin")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
     private AdminService adminService;
 
@@ -22,6 +24,11 @@ public class AdminController {
     @PostMapping("/ban")
     public ChangeUserDtoResponse banUser(@Valid @RequestBody ChangeUserRoleRequest request){
         return adminService.banUser(request);
+    }
+
+    @GetMapping("/admin")
+    public String adminPanel(){
+        return "admin";
     }
 
     @GetMapping("/unBan")
@@ -35,10 +42,5 @@ public class AdminController {
     @PostMapping("/change")
     public ChangeUserDtoResponse changeUserRole(@Valid @RequestBody ChangeUserRoleRequest request){
         return adminService.changeUserRole(request);
-    }
-
-    @PostMapping("/delete")
-    public DeleteSongDtoResponse deleteSong(@Valid @RequestBody DeleteSongDtoRequest request){
-        return adminService.deleteSong(request);
     }
 }
