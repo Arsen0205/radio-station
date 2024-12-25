@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<form action="/admin/change" method="post" xmlns:th="http://www.w3.org/1999/xhtml">
+    <!-- Поле для логина пользователя -->
+    <input type="text" name="userLogin" th:value="${user.userLogin}" required />
 
-</body>
-</html>
+    <!-- Выбор роли -->
+    <div th:each="role : ${roles}">
+        <div>
+            <label>
+                <input type="radio" name="newRole" th:value="${role}"
+                       th:checked="${user.roles.contains(role)}"/>
+                <span th:text="${role}">Role Name</span>
+            </label>
+        </div>
+    </div>
+
+    <input type="hidden" th:value="${user.id}" name="userId"/>
+    <button type="submit">Save</button>
+</form>

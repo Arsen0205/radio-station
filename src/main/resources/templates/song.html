@@ -45,11 +45,13 @@
                 Ваш браузер не поддерживает проигрывание аудио.
             </audio>
             <p>Добавлено: <strong th:text="${user.name}"></strong></p>
-            <div th:if="${user.isPerformer()} and ${user.userLogin} == ${song.user.userLogin}">
+            <div th:if="${user.isAdmin()} or (${user.isPerformer()} and ${user.userLogin} == ${song.user.userLogin})">
                 <form th:action="@{/song/delete/{id}(id=${song.id})}" method="post">
                     <input type="hidden" th:name="id" th:value="${song.id}">
                     <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить этот трек?')">Удалить трек</button>
                 </form>
+            </div>
+
         </li>
     </th:block>
 </ul>

@@ -18,8 +18,8 @@ public class AdminService {
     private final UserRepository userRepository;
     private final SongRepository songRepository;
 
-    public ChangeUserDtoResponse banUser(ChangeUserRoleRequest request) {
-        User user = userRepository.findByUserLogin(request.getUserLogin()).orElseThrow(() -> new IllegalArgumentException("Пользователь с таким логином не найден"));
+    public ChangeUserDtoResponse banUser(String userLogin) {
+        User user = userRepository.findByUserLogin(userLogin).orElseThrow(() -> new IllegalArgumentException("Пользователь с таким логином не найден"));
 
         if (!user.isActive()) {
             throw new IllegalArgumentException("Пользователь уже заблокирован");
@@ -31,8 +31,8 @@ public class AdminService {
         return new ChangeUserDtoResponse("Вы заблокировали пользователя");
     }
 
-    public ChangeUserDtoResponse unBanUser(ChangeUserRoleRequest request){
-        User user = userRepository.findByUserLogin(request.getUserLogin()).orElseThrow(() -> new IllegalArgumentException("Пользователь с таким логином не найден"));
+    public ChangeUserDtoResponse unBanUser(String userLogin){
+        User user = userRepository.findByUserLogin(userLogin).orElseThrow(() -> new IllegalArgumentException("Пользователь с таким логином не найден"));
 
         if(user.isActive()){
             throw new IllegalArgumentException("Пользователь уже разблокирован");

@@ -34,6 +34,9 @@ public class User {
     @Column(name="active")
     private boolean active;
 
+    @Transient
+    private String rolesString;
+
     @PrePersist
     private void init(){
         dateOfCreated = LocalDateTime.now();

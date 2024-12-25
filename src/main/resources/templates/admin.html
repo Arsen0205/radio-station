@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Панель администратора</title>
 </head>
 <body>
+<h1>Панель администратора</h1>
 
+<div th:if="${users == null or #lists.isEmpty(users)}">
+    <p>Нет пользователей для отображения.</p>
+</div>
+
+<table th:if="${users != null and not #lists.isEmpty(users)}">
+    <thead>
+    <tr>
+        <th>Логин</th>
+        <th>Активность</th>
+        <th>Роль</th>
+        <th>Бан</th>
+        <th>Редактирование</th>
+        <th>Подробная информация</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.userLogin}">Email</td>
+        <td th:text="${user.active ? 'Активен' : 'Неактивен'}">Активность</td>
+        <td th:text="${user.rolesString}">Роль</td>
+        <td>
+            <form th:action="@{/admin/ban/{userLogin}(userLogin=${user.userLogin})}" method="post">
+                <input type="submit" value="Забанить" th:if="${user.active}"/>
+            </form>
+            <form th:action="@{/admin/unBan/{userLogin}(userLogin=${user.userLogin})}" method="post">
+                <input type="submit" value="Разбанить" th:if="${!user.active}"/>
+            </form>
+        </td>
+        <td>
+            <a th:href="@{/admin/change/{id}(id=${user.id})}">Редактировать</a>
+        </td>
+        <td>
+            <a th:href="@{/user/{id}(id=${user.id})}">Подробная информация</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
